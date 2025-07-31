@@ -1,6 +1,4 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import StudentForm from "./components/StudentForm";
-import StudentList from "./components/StudentList";
 import { useState } from "react";
 import MainPage from "./Pages/MainPage/MainPage";
 import ActiveMembers from "./Pages/ActiveMembers/ActiveMembers";
