@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import Sidebar from "../../components/Sidebar.jsx";
-import { FaChevronRight } from "react-icons/fa";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function DueFees() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -17,8 +16,7 @@ function DueFees() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const handleRightClick = () => {
-    // alert(`Action for Seat No: ${seatNo}`);
+  const handleViewClick = () => {
     navigate("/Profile");
   };
 
@@ -60,16 +58,33 @@ function DueFees() {
               </thead>
               <tbody>
                 {members.map((member) => (
-                  <tr key={member.seatNo} className="border-b border-gray-700 ">
+                  <tr key={member.seatNo} className="border-b border-gray-700">
                     <td className="px-3 py-2 md:px-6 md:py-3">
                       {member.seatNo}
                     </td>
                     <td className="px-3 py-2 md:px-6 md:py-3">{member.name}</td>
-                    <td className="px-3 py-2 md:px-6 md:py-3 text-center flex justify-center">
-                      <FaChevronRight
-                        onClick={() => handleRightClick()}
-                        className="text-gray-300 hover:text-gray-400 cursor-pointer"
-                      />
+                    <td className="px-3 py-2 md:px-6 md:py-3 text-center">
+                      <div className="flex justify-center gap-2">
+                        {/* View button */}
+                        <button
+                          onClick={() => handleViewClick()}
+                          className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1 rounded"
+                        >
+                          View
+                        </button>
+
+                        {/* Paid button */}
+                        <button className="bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1 rounded">
+                          Paid
+                        </button>
+
+                        {/* Payment dropdown */}
+                        <select className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-2 py-1 rounded cursor-pointer focus:outline-none">
+                          <option value="">Select</option>
+                          <option value="cash">Cash</option>
+                          <option value="online">Online Payment</option>
+                        </select>
+                      </div>
                     </td>
                   </tr>
                 ))}
