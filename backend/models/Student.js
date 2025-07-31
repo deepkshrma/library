@@ -39,6 +39,12 @@ const studentSchema = new mongoose.Schema({
     type: String,
     default: ""                 // URL or path to image
   },
+  monthlyFee: {
+    type: Number,
+    default: 500,  // You can change default
+    required: true
+  },
+
   joinDate: {
     type: Date,
     required: true
