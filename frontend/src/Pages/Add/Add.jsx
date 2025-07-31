@@ -1,11 +1,65 @@
 import React, { useState, useRef } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import Sidebar from "../../components/Sidebar.jsx";
+import axios from "axios";
 
 function Add() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [image, setImage] = useState(null); // State for image preview
   const fileInputRef = useRef(null); // Ref to trigger file input
+
+  const [formData, setFormData] = useState({
+    name: "",
+    fatherName: "",
+    mobile: "",
+    parentMobile: "",
+    aadharNo: "",
+    address: "",
+    seatNo: "",
+    monthlyFee: "",
+    joinDate: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const dataToSend = {
+      ...formData,
+      profileImage: "", // Image logic can be added later
+      status: "paid", // Default to active/paid
+    };
+
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/students",
+        dataToSend
+      );
+
+      alert("Student added successfully!");
+
+      // Reset form
+      setFormData({
+        name: "",
+        fatherName: "",
+        mobile: "",
+        parentMobile: "",
+        aadharNo: "",
+        address: "",
+        seatNo: "",
+        monthlyFee: "",
+        joinDate: "",
+      });
+      setImage(null);
+    } catch (error) {
+      console.error("Error:", error);
+      alert(error.response?.data?.error || "Something went wrong");
+    }
+  };
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -44,7 +98,7 @@ function Add() {
         {/* Form Container */}
         <div className="w-full h-full bg-gray-900 px-4 md:px-[100px] text-gray-200 py-4 flex flex-col overflow-y-auto">
           <div className="w-full text-md font-semibold">
-            <form className="w-full mx-auto">
+            <form className="w-full mx-auto" onSubmit={handleSubmit}>
               <div className="w-full h-full flex flex-col justify-between">
                 {/* Image Upload (Top) */}
                 <div className="flex flex-col items-center mb-6">
@@ -64,6 +118,7 @@ function Add() {
                   </div>
                   <input
                     type="file"
+                    name="image"
                     ref={fileInputRef}
                     accept="image/*"
                     onChange={handleImageChange}
@@ -79,6 +134,9 @@ function Add() {
                   <input
                     type="text"
                     id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
                     className="w-full rounded bg-gray-800 border border-gray-700 outline-none focus:ring-2 focus:ring-gray-500 px-2 py-1 text-sm text-white"
                   />
                 </div>
@@ -94,6 +152,9 @@ function Add() {
                   <input
                     type="text"
                     id="fatherName"
+                    name="fatherName"
+                    value={formData.fatherName}
+                    onChange={handleInputChange}
                     className="w-full rounded bg-gray-800 border border-gray-700 outline-none focus:ring-2 focus:ring-gray-500 px-2 py-1 text-sm text-white"
                   />
                 </div>
@@ -106,7 +167,10 @@ function Add() {
                   <input
                     type="tel"
                     id="phone"
+                    name="mobile"
                     pattern="[0-9]{10}"
+                    value={formData.mobile}
+                    onChange={handleInputChange}
                     className="w-full rounded bg-gray-800 border border-gray-700 outline-none focus:ring-2 focus:ring-gray-500 px-2 py-1 text-sm text-white"
                   />
                 </div>
@@ -122,7 +186,10 @@ function Add() {
                   <input
                     type="tel"
                     id="parentPhone"
+                    name="parentMobile"
                     pattern="[0-9]{10}"
+                    value={formData.parentMobile}
+                    onChange={handleInputChange}
                     className="w-full rounded bg-gray-800 border border-gray-700 outline-none focus:ring-2 focus:ring-gray-500 px-2 py-1 text-sm text-white"
                   />
                 </div>
@@ -135,6 +202,9 @@ function Add() {
                   <input
                     type="text"
                     id="Aadhar"
+                    name="aadharNo"
+                    value={formData.aadharNo}
+                    onChange={handleInputChange}
                     className="w-full rounded bg-gray-800 border border-gray-700 outline-none focus:ring-2 focus:ring-gray-500 px-2 py-1 text-sm text-white"
                   />
                 </div>
@@ -147,6 +217,9 @@ function Add() {
                   <input
                     type="text"
                     id="address"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleInputChange}
                     className="w-full rounded bg-gray-800 border border-gray-700 outline-none focus:ring-2 focus:ring-gray-500 px-2 py-1 text-sm text-white"
                   />
                 </div>
@@ -162,6 +235,26 @@ function Add() {
                   <input
                     type="number"
                     id="seatNumber"
+                    name="seatNo"
+                    value={formData.seatNo}
+                    onChange={handleInputChange}
+                    className="w-full rounded bg-gray-800 border border-gray-700 outline-none focus:ring-2 focus:ring-gray-500 px-2 py-1 text-sm text-white"
+                  />
+                </div>
+                {/* Monthly Fee */}
+                <div className="mb-5">
+                  <label
+                    htmlFor="monthlyFee"
+                    className="block mb-1 text-gray-300"
+                  >
+                    Monthly Fee (₹):
+                  </label>
+                  <input
+                    type="number"
+                    id="monthlyFee"
+                    name="monthlyFee"
+                    value={formData.monthlyFee}
+                    onChange={handleInputChange}
                     className="w-full rounded bg-gray-800 border border-gray-700 outline-none focus:ring-2 focus:ring-gray-500 px-2 py-1 text-sm text-white"
                   />
                 </div>
@@ -177,6 +270,9 @@ function Add() {
                   <input
                     type="date"
                     id="joinDate"
+                    name="joinDate"
+                    value={formData.joinDate}
+                    onChange={handleInputChange}
                     className="w-full rounded bg-gray-800 border border-gray-700 outline-none focus:ring-2 focus:ring-gray-500 px-2 py-1 text-sm text-white"
                   />
                 </div>
@@ -184,7 +280,7 @@ function Add() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-fit px-8 py-1 rounded-full font-semibold border border-gray-700 bg-gray-700 hover:bg-gray-600 text-white transition-all duration-300"
+                  className="w-fit px-8 py-1 rounded-full font-semibold border border-gray-700  hover:bg-gray-600 bg-blue-900 text-white transition-all duration-300"
                 >
                   Add Member
                 </button>
