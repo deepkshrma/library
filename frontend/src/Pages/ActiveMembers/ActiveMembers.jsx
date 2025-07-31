@@ -39,7 +39,11 @@ function ActiveMembers() {
   };
 
   const backButtonHandle = () => {
-    navigate("/");
+    if (location.pathname === `/Profile`) {
+      navigate("/ActiveMembers");
+    } else {
+      navigate("/");
+    }
   };
 
   return (
