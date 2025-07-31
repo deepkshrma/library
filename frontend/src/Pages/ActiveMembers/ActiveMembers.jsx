@@ -4,11 +4,14 @@ import Sidebar from "../../components/Sidebar.jsx";
 import { FaChevronRight } from "react-icons/fa";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { TiArrowBack } from "react-icons/ti";
+import { Link, useLocation } from "react-router-dom";
 
 function ActiveMembers() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [members, setMembers] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -35,11 +38,26 @@ function ActiveMembers() {
     navigate(`/Profile/${id}`);
   };
 
+  const backButtonHandle = () => {
+    if (location.pathname === `/Profile`) {
+      navigate("/ActiveMembers");
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <div className="h-screen w-screen bg-gray-900 text-white relative">
       {/* Header */}
       <header className="flex justify-between items-center bg-gray-800 px-4 py-3 md:px-6 md:py-4">
-        <h1 className="text-xl md:text-2xl font-bold">Pooja Library</h1>
+        <div className="flex items-center gap-3">
+          <TiArrowBack
+            size={30}
+            className="text-white"
+            onClick={backButtonHandle}
+          />
+          <h1 className="text-xl md:text-2xl font-bold">Pooja Library</h1>
+        </div>
         <button
           onClick={toggleSidebar}
           className="p-2 hover:bg-gray-700 rounded"
