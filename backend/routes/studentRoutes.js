@@ -1,5 +1,6 @@
 import express from "express";
 import Student from "../models/Student.js";
+import mongoose from "mongoose";
 
 const router = express.Router();
 
@@ -93,16 +94,33 @@ router.patch("/:id/pay-fee", async (req, res) => {
 // routes/studentRoutes.js
 router.put("/remove/:id", async (req, res) => {
   try {
+    const { id } = req.params;
+
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      console.log("❌ Invalid ObjectId:", id);
+      return res.status(400).json({ error: "Invalid student ID" });
+    }
+
     const updated = await Student.findByIdAndUpdate(
       req.params.id,
       {
         status: "old",
-        seatNo: null,
+        $unset: { seatNo: "" },
       },
       { new: true }
     );
+
+
+    if (!updated) {
+      console.log("Student not found with ID:", id);
+      return res.status(404).json({ error: "Student not found" });
+    }
+
+    console.log(" Student removed:", updated);
     res.json(updated);
   } catch (err) {
+    console.error(" Error in /remove/:id →", err);
     res.status(500).json({ error: err.message });
   }
 });
