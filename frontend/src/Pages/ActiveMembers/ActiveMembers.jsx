@@ -1,25 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import Sidebar from "../../components/Sidebar.jsx";
 import { FaChevronRight } from "react-icons/fa";
 import { Navigate, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function ActiveMembers() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [members] = useState([
-    { seatNo: 101, name: "John Doe" },
-    { seatNo: 102, name: "Priya Sharma" },
-    { seatNo: 103, name: "Amit Kumar" },
-  ]);
+  const [members, setMembers] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/students");
+        const activeMembers = res.data.filter(
+          (student) => student.status === "paid"
+        );
+        setMembers(activeMembers);
+      } catch (error) {
+        console.error("Error fetching members:", error);
+      }
+    };
+
+    fetchMembers();
+  }, []);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const handleRightClick = () => {
+  const handleRightClick = (id) => {
     // alert(`Action for Seat No: ${seatNo}`);
-    navigate("/Profile");
+    navigate(`/Profile/${id}`);
   };
 
   return (
@@ -67,7 +80,7 @@ function ActiveMembers() {
                     <td className="px-3 py-2 md:px-6 md:py-3">{member.name}</td>
                     <td className="px-3 py-2 md:px-6 md:py-3 text-center flex justify-center">
                       <FaChevronRight
-                        onClick={() => handleRightClick()}
+                        onClick={() => handleRightClick(member._id)}
                         className="text-gray-300 hover:text-gray-400 cursor-pointer"
                       />
                     </td>
