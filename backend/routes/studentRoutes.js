@@ -91,20 +91,22 @@ router.patch("/:id/pay-fee", async (req, res) => {
 });
 
 // routes/studentRoutes.js
-router.patch("/:id/remove", async (req, res) => {
+router.put("/remove/:id", async (req, res) => {
   try {
-    const student = await Student.findById(req.params.id);
-    if (!student) return res.status(404).json({ message: "Student not found" });
-
-    student.status = "old";
-    student.seatNo = null;
-    await student.save();
-
-    res.json({ message: "Student marked as old", student });
+    const updated = await Student.findByIdAndUpdate(
+      req.params.id,
+      {
+        status: "old",
+        seatNo: null,
+      },
+      { new: true }
+    );
+    res.json(updated);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // PATCH /api/students/:id/update-seat
 router.patch("/:id/update-seat", async (req, res) => {
