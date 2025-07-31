@@ -96,6 +96,15 @@ function Profile() {
             </div>
             <hr className="text-gray-700" />
           </div>
+          {/* Delete Button */}
+          <div className="mt-7 flex justify-end">
+            <button
+              onClick={() => handleDelete(memberData.id)} // Pass member ID or relevant identifier
+              className="bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-2 rounded shadow"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>
