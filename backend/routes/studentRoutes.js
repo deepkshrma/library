@@ -78,7 +78,7 @@ router.patch("/:id/pay-fee", async (req, res) => {
     student.paymentMethod = method || "cash";
 
     // Change status to "paid"
-    student.status = "paid";
+    student.status = "Paid";
 
     await student.save();
     res.json({ message: "Payment successful", student });
@@ -102,7 +102,7 @@ router.put("/remove/:id", async (req, res) => {
     const updated = await Student.findByIdAndUpdate(
       req.params.id,
       {
-        status: "old",
+        status: "Old",
         seatNo: undefined,
       },
       { new: true }
