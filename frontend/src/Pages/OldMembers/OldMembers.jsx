@@ -1,32 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import Sidebar from "../../components/Sidebar.jsx";
 import { FaChevronRight } from "react-icons/fa";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
+import { TiArrowBack } from "react-icons/ti";
 
 function OldMembers() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [members] = useState([
-    { seatNo: 101, name: "John Doe" },
-    { seatNo: 102, name: "Priya Sharma" },
-    { seatNo: 103, name: "Amit Kumar" },
-  ]);
+  const [members, setMembers] = useState([]);
+  const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/api/students`);
+        const OldMembers = res.data.filter(
+          (student) => student.status === "old"
+        );
+        setMembers(OldMembers);
+      } catch (error) {
+        console.error("Error fetching members:", error);
+      }
+    };
+    fetchMembers();
+  }, []);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const handleRightClick = () => {
-    // alert(`Action for Seat No: ${seatNo}`);
-    navigate("/Profile");
+  const handleRightClick = (id) => {
+    navigate(`/Profile/${id}`, { state: { from: "/OldMembers" } });
+  };
+  const backButtonHandle = () => {
+    const from = location.state?.from;
+
+    if (from) {
+      navigate(from);
+    } else {
+      navigate("/");
+    }
   };
 
   return (
     <div className="h-screen w-screen bg-gray-900 text-white relative">
       {/* Header */}
       <header className="flex justify-between items-center bg-gray-800 px-4 py-3 md:px-6 md:py-4">
-        <h1 className="text-xl md:text-2xl font-bold">Pooja Library</h1>
+        <div className="flex items-center gap-3">
+          <TiArrowBack
+            size={30}
+            className="text-white"
+            onClick={(id) => backButtonHandle(id)}
+          />
+          <h1 className="text-xl md:text-2xl font-bold">Pooja Library</h1>
+        </div>
         <button
           onClick={toggleSidebar}
           className="p-2 hover:bg-gray-700 rounded"
@@ -67,7 +96,7 @@ function OldMembers() {
                     <td className="px-3 py-2 md:px-6 md:py-3">{member.name}</td>
                     <td className="px-3 py-2 md:px-6 md:py-3 text-center flex justify-center">
                       <FaChevronRight
-                        onClick={() => handleRightClick()}
+                        onClick={() => handleRightClick(member._id)}
                         className="text-gray-300 hover:text-gray-400 cursor-pointer"
                       />
                     </td>

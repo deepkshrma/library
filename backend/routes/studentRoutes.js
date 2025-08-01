@@ -68,28 +68,25 @@ router.patch("/:id", async (req, res) => {
 
 // Mark specific month’s fee as paid
 router.patch("/:id/pay-fee", async (req, res) => {
-  const { month, method } = req.body;
+  const { method } = req.body;
 
   try {
     const student = await Student.findById(req.params.id);
     if (!student) return res.status(404).json({ error: "Student not found" });
 
-    const fee = student.fees.find(f => f.month === month);
-    if (!fee) return res.status(400).json({ error: "Month not found in fees" });
+    // Set payment method if needed
+    student.paymentMethod = method || "cash";
 
-    fee.paid = true;
-    fee.paidDate = new Date();
-    fee.paymentMethod = method || "cash";
-
-    // Optionally update status to 'active'
-    student.status = "active";
+    // Change status to "paid"
+    student.status = "paid";
 
     await student.save();
-    res.json({ message: "Fee marked as paid", student });
+    res.json({ message: "Payment successful", student });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // routes/studentRoutes.js
 router.put("/remove/:id", async (req, res) => {
@@ -98,7 +95,7 @@ router.put("/remove/:id", async (req, res) => {
 
     // Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      console.log("❌ Invalid ObjectId:", id);
+      console.log(" Invalid ObjectId", id);
       return res.status(400).json({ error: "Invalid student ID" });
     }
 
@@ -106,7 +103,7 @@ router.put("/remove/:id", async (req, res) => {
       req.params.id,
       {
         status: "old",
-        $unset: { seatNo: "" },
+        seatNo: undefined,
       },
       { new: true }
     );

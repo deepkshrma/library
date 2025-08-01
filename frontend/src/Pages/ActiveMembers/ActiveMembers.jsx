@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import Sidebar from "../../components/Sidebar.jsx";
 import { FaChevronRight } from "react-icons/fa";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { TiArrowBack } from "react-icons/ti";
-import { Link, useLocation } from "react-router-dom";
 
 function ActiveMembers() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -17,9 +16,10 @@ function ActiveMembers() {
     const fetchMembers = async () => {
       try {
         const res = await axios.get("http://localhost:5000/api/students");
-        const activeMembers = res.data.filter(
-          (student) => student.status === "paid"
+        const activeMembers = res.data.filter((student) =>
+          ["paid", "due"].includes(student.status)
         );
+
         setMembers(activeMembers);
       } catch (error) {
         console.error("Error fetching members:", error);
@@ -34,13 +34,14 @@ function ActiveMembers() {
   };
 
   const handleRightClick = (id) => {
-    // alert(`Action for Seat No: ${seatNo}`);
-    navigate(`/Profile/${id}`);
+    navigate(`/Profile/${id}`, { state: { from: "/ActiveMembers" } });
   };
 
   const backButtonHandle = () => {
-    if (location.pathname === `/Profile`) {
-      navigate("/ActiveMembers");
+    const from = location.state?.from;
+
+    if (from) {
+      navigate(from);
     } else {
       navigate("/");
     }
@@ -54,7 +55,7 @@ function ActiveMembers() {
           <TiArrowBack
             size={30}
             className="text-white"
-            onClick={backButtonHandle}
+            onClick={(id) => backButtonHandle(id)}
           />
           <h1 className="text-xl md:text-2xl font-bold">Pooja Library</h1>
         </div>
@@ -91,11 +92,26 @@ function ActiveMembers() {
               </thead>
               <tbody>
                 {members.map((member) => (
-                  <tr key={member.seatNo} className="border-b border-gray-700 ">
-                    <td className="px-3 py-2 md:px-6 md:py-3">
+                  <tr key={member.seatNo} className="border-b border-gray-700">
+                    <td
+                      className={`px-3 py-2 md:px-6 md:py-3 ${
+                        member.status === "due"
+                          ? "text-red-400 font-semibold"
+                          : ""
+                      }`}
+                    >
                       {member.seatNo}
                     </td>
-                    <td className="px-3 py-2 md:px-6 md:py-3">{member.name}</td>
+                    <td
+                      className={`px-3 py-2 md:px-6 md:py-3 ${
+                        member.status === "due"
+                          ? "text-red-400 font-semibold"
+                          : ""
+                      }`}
+                    >
+                      {member.name}
+                    </td>
+
                     <td className="px-3 py-2 md:px-6 md:py-3 text-center flex justify-center">
                       <FaChevronRight
                         onClick={() => handleRightClick(member._id)}
