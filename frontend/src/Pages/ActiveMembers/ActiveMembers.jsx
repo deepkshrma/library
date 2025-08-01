@@ -92,9 +92,12 @@ function ActiveMembers() {
               </thead>
               <tbody>
                 {members.map((member) => (
-                  <tr key={member.seatNo} className="border-b border-gray-700">
+                  <tr
+                    key={member.seatNo}
+                    className="border-b border-gray-700 shadow-[0_4px_12px_rgba(128,128,128,0.6)]"
+                  >
                     <td
-                      className={`px-3 py-2 md:px-6 md:py-3 ${
+                      className={`px-3 py-4 md:px-6 md:py-3 ${
                         member.status === "Due"
                           ? "text-red-400 font-semibold"
                           : ""
@@ -103,7 +106,7 @@ function ActiveMembers() {
                       {member.seatNo}
                     </td>
                     <td
-                      className={`px-3 py-2 md:px-6 md:py-3 ${
+                      className={`px-3 py-4 md:px-6 md:py-3 ${
                         member.status === "Due"
                           ? "text-red-400 font-semibold"
                           : ""
@@ -112,7 +115,7 @@ function ActiveMembers() {
                       {member.name}
                     </td>
 
-                    <td className="px-3 py-2 md:px-6 md:py-3 text-center flex justify-center">
+                    <td className="px-3 py-4 md:px-6 md:py-3 text-center flex justify-center">
                       <FaChevronRight
                         onClick={() => handleRightClick(member._id)}
                         className="text-gray-300 hover:text-gray-400 cursor-pointer"
