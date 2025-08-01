@@ -18,7 +18,7 @@ function DueFees() {
       try {
         const res = await axios.get(`http://localhost:5000/api/students`);
         const duemembers = res.data.filter(
-          (student) => student.status === "due"
+          (student) => student.status === "Due"
         );
         setMembers(duemembers);
       } catch (error) {
