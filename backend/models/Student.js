@@ -31,9 +31,6 @@ const studentSchema = new mongoose.Schema({
   address: String,
   seatNo: {
     type: String,
-    required: true,
-    unique: true,
-    sparse: true,
   },
   aadharNo: String,
   profileImage: {
