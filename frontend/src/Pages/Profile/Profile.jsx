@@ -126,7 +126,13 @@ function Profile() {
 
           {/* Profile Info */}
           <p
-            className={`text-md  bg-blue-500 px-3 py-1 flex justify-center items-center text-white  rounded`}
+            className={`text-md ${
+              memberData.status === "Paid"
+                ? "bg-green-500"
+                : memberData.status === "Due"
+                ? "bg-yellow-400"
+                : "bg-red-500"
+            } bg-blue-500 px-3 py-1 flex justify-center items-center text-white  rounded`}
           >
             {memberData.status}
           </p>
