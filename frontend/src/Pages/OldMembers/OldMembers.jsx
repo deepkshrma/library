@@ -6,6 +6,8 @@ import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { TiArrowBack } from "react-icons/ti";
 
+const bashUrl = "http://localhost:5000";
+
 function OldMembers() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [members, setMembers] = useState([]);
@@ -15,7 +17,7 @@ function OldMembers() {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/students`);
+        const res = await axios.get(`${bashUrl}/api/students`);
         const OldMembers = res.data.filter(
           (student) => student.status === "Old"
         );

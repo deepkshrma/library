@@ -56,14 +56,23 @@ router.delete("/:id", async (req, res) => {
 // Update student data (including profile image)
 router.patch("/:id", async (req, res) => {
   try {
+    const updateData = { ...req.body };
+
+    // ⚠️ Prevent status from being updated unless explicitly allowed
+    if (updateData.status && !["Paid", "Due"].includes(updateData.status)) {
+      delete updateData.status;
+    }
+
     const updatedStudent = await Student.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body }, // Make sure profileImage is sent in req.body if you're updating it
+      { $set: updateData },
       { new: true }
     );
+
     if (!updatedStudent) {
       return res.status(404).json({ message: "Student not found" });
     }
+
     res.json(updatedStudent);
   } catch (err) {
     res.status(400).json({ error: err.message });

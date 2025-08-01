@@ -7,6 +7,8 @@ import guest from "../../assets/guest.png";
 import { TiArrowBack } from "react-icons/ti";
 import { Link, useLocation } from "react-router-dom";
 
+const bashUrl = "http://localhost:5000";
+
 function Profile() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -18,7 +20,7 @@ function Profile() {
   useEffect(() => {
     const fetchMember = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/students/${id}`);
+        const res = await axios.get(`${bashUrl}/api/students/${id}`);
         setMemberData(res.data);
       } catch (err) {
         console.error("Error fetching profile", err);
@@ -29,7 +31,7 @@ function Profile() {
 
   const handleDelete = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/students/remove/${id}`);
+      await axios.put(`${bashUrl}/api/students/remove/${id}`);
       navigate("/ActiveMembers"); // or wherever you want to redirect
     } catch (err) {
       console.error("Error removing member:", err);
@@ -53,7 +55,7 @@ function Profile() {
   const handleSeatUpdate = async () => {
     try {
       await axios.patch(
-        `http://localhost:5000/api/students/${id}/update-seat`,
+        `${bashUrl}/api/students/${id}/update-seat`,
         { seatNo: memberData.seatNo }
       );
       alert("Seat number updated successfully.");

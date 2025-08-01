@@ -6,6 +6,8 @@ import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { TiArrowBack } from "react-icons/ti";
 
+const bashUrl = "http://localhost:5000";
+
 function ActiveMembers() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [members, setMembers] = useState([]);
@@ -15,7 +17,7 @@ function ActiveMembers() {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/students");
+        const res = await axios.get(`${bashUrl}/api/students`);
         const activeMembers = res.data.filter((student) =>
           ["Paid", "Due"].includes(student.status)
         );
@@ -118,7 +120,11 @@ function ActiveMembers() {
                     <td className="px-3 py-4 md:px-6 md:py-3 text-center flex justify-center">
                       <FaChevronRight
                         onClick={() => handleRightClick(member._id)}
-                        className="text-gray-300 hover:text-gray-400 cursor-pointer"
+                        className={`cursor-pointer ${
+                          member.status === "Due"
+                            ? "text-red-400"
+                            : "text-gray-300 hover:text-gray-400"
+                        }`}
                       />
                     </td>
                   </tr>

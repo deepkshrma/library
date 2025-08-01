@@ -6,6 +6,8 @@ import axios from "axios";
 import { TiArrowBack } from "react-icons/ti";
 import otherImage from "../../assets/guest.png";
 
+const bashUrl = "http://localhost:5000";
+
 function Add() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -33,7 +35,7 @@ function Add() {
       const fetchMember = async () => {
         try {
           const res = await axios.get(
-            `http://localhost:5000/api/students/${id}`
+            `${bashUrl}/api/students/${id}`
           );
           const data = res.data;
           setFormData({
@@ -101,13 +103,13 @@ function Add() {
       if (id) {
         // UPDATE
         await axios.patch(
-          `http://localhost:5000/api/students/${id}`,
+          `${bashUrl}/api/students/${id}`,
           dataToSend
         );
         alert("Member updated successfully!");
       } else {
         // ADD NEW
-        await axios.post("http://localhost:5000/api/students", dataToSend);
+        await axios.post(`${bashUrl}/api/students`, dataToSend);
         alert("Member added successfully!");
         setFormData({
           name: "",
