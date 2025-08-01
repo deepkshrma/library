@@ -104,12 +104,15 @@ function DueFees() {
               </thead>
               <tbody>
                 {members.map((member) => (
-                  <tr key={member.seatNo} className="border-b border-gray-700">
-                    <td className="px-3 py-2 md:px-6 md:py-3">
+                  <tr
+                    key={member.seatNo}
+                    className="border-b border-gray-700 shadow-[0_4px_12px_rgba(128,128,128,0.6)]"
+                  >
+                    <td className="px-3 py-4 md:px-6 md:py-3">
                       {member.seatNo}
                     </td>
-                    <td className="px-3 py-2 md:px-6 md:py-3">{member.name}</td>
-                    <td className="px-3 py-2 md:px-6 md:py-3 text-center">
+                    <td className="px-3 py-4 md:px-6 md:py-3">{member.name}</td>
+                    <td className="px-3 py-4 md:px-6 md:py-3 text-center">
                       <div className="flex justify-center gap-2">
                         {/* View button */}
                         <button
@@ -126,7 +129,6 @@ function DueFees() {
                         >
                           Paid
                         </button>
-
                       </div>
                     </td>
                   </tr>
