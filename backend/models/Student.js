@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const feeSchema = new mongoose.Schema({
   month: {
-    type: String, 
+    type: String,
     required: true
   },
   paid: {
@@ -26,20 +26,22 @@ const studentSchema = new mongoose.Schema({
     required: true
   },
   fatherName: String,
-  mobile: String,              
-  parentMobile: String,         
+  mobile: String,
+  parentMobile: String,
   address: String,
   seatNo: {
     type: String,
+    unique: true,
+    sparse: true,
   },
   aadharNo: String,
   profileImage: {
     type: String,
-    default: ""               
+    default: ""
   },
   monthlyFee: {
     type: Number,
-    default: 500, 
+    default: 500,
     required: true
   },
 
@@ -54,6 +56,8 @@ const studentSchema = new mongoose.Schema({
     default: "Paid"
   },
   fees: [feeSchema]
+},{
+  timestamps: true 
 });
 
 const Student = mongoose.model("Student", studentSchema);

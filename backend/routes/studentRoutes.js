@@ -7,6 +7,11 @@ const router = express.Router();
 // Create a new student
 router.post("/", async (req, res) => {
   try {
+    const exists = await Student.findOne({ seatNo: req.body.seatNo, status: { $in: ['paid', 'due'] } });
+    if (exists) {
+      return res.status(400).json({ error: "Seat already in use by an active member." });
+    }
+
     const student = new Student(req.body);
     await student.save();
     res.status(201).json(student);
@@ -103,7 +108,7 @@ router.put("/remove/:id", async (req, res) => {
       req.params.id,
       {
         status: "Old",
-        seatNo: undefined,
+        $unset: { seatNo: "" },
       },
       { new: true }
     );

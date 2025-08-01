@@ -128,13 +128,36 @@ function Profile() {
           <p
             className={`text-md ${
               memberData.status === "Paid"
-                ? "bg-green-500"
+                ? "bg-green-700"
                 : memberData.status === "Due"
-                ? "bg-yellow-400"
-                : "bg-red-500"
-            } bg-blue-500 px-3 py-1 flex justify-center items-center text-white  rounded`}
+                ? "bg-yellow-700"
+                : "bg-red-700"
+            } bg-blue-500 px-5 py-1 flex justify-center items-center text-white  rounded`}
           >
-            {memberData.status}
+            {memberData.status === "Old" ? (
+              <p className="text-sm text-red-200">
+                Left on:{" "}
+                {(() => {
+                  const date = new Date(memberData.updatedAt);
+                  const day = String(date.getDate()).padStart(2, "0");
+                  const month = String(date.getMonth() + 1).padStart(2, "0");
+                  const year = date.getFullYear();
+                  return `${day}/${month}/${year}`;
+                })()}
+              </p>
+            ) : (
+              <p
+                className={`text-sm ${
+                  memberData.status === "Paid"
+                    ? "text-green-400"
+                    : memberData.status === "Due"
+                    ? "text-yellow-400"
+                    : ""
+                }`}
+              >
+                {memberData.status}
+              </p>
+            )}
           </p>
           <div className="flex flex-col justify-center w-full max-w-md">
             <h2 className="text-2xl font-bold mb-4">{memberData.name}</h2>

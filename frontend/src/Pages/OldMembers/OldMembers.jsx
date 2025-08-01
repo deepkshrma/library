@@ -78,9 +78,8 @@ function OldMembers() {
             <table className="min-w-full rounded-lg text-sm md:text-base">
               <thead>
                 <tr className="bg-gray-700 text-gray-300">
-                  <th className="px-3 py-2 md:px-6 md:py-3 text-left">
-                    Seat No.
-                  </th>
+                  <th className="px-3 py-2 md:px-6 md:py-3 text-left">Image</th>
+
                   <th className="px-3 py-2 md:px-6 md:py-3 text-left">Name</th>
                   <th className="px-3 py-2 md:px-6 md:py-3 text-center">
                     Action
@@ -91,8 +90,19 @@ function OldMembers() {
                 {members.map((member) => (
                   <tr key={member.seatNo} className="border-b border-gray-700 ">
                     <td className="px-3 py-2 md:px-6 md:py-3">
-                      {member.seatNo}
+                      {member.profileImage ? (
+                        <img
+                          src={member.profileImage}
+                          alt={member.name}
+                          className="w-10 h-10 rounded-full object-cover border border-gray-600"
+                        />
+                      ) : (
+                        <div className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-xs text-gray-400">
+                          N/A
+                        </div>
+                      )}
                     </td>
+
                     <td className="px-3 py-2 md:px-6 md:py-3">{member.name}</td>
                     <td className="px-3 py-2 md:px-6 md:py-3 text-center flex justify-center">
                       <FaChevronRight

@@ -127,21 +127,6 @@ function DueFees() {
                           Paid
                         </button>
 
-                        {/* Payment dropdown */}
-                        <select
-                          value={paymentmethod[member._id] || ""}
-                          onChange={(e) =>
-                            setpaymentmethod({
-                              ...paymentmethod,
-                              [member._id]: e.target.value,
-                            })
-                          }
-                          className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-2 py-1 rounded cursor-pointer focus:outline-none"
-                        >
-                          <option value="">Select</option>
-                          <option value="cash">Cash</option>
-                          <option value="online">Online Payment</option>
-                        </select>
                       </div>
                     </td>
                   </tr>
