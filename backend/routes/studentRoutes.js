@@ -98,7 +98,7 @@ router.put("/remove/:id", async (req, res) => {
 
     // Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      console.log("❌ Invalid ObjectId:", id);
+      console.log(" Invalid ObjectId", id);
       return res.status(400).json({ error: "Invalid student ID" });
     }
 
@@ -106,7 +106,7 @@ router.put("/remove/:id", async (req, res) => {
       req.params.id,
       {
         status: "old",
-        $unset: { seatNo: "" },
+        seatNo: undefined,
       },
       { new: true }
     );

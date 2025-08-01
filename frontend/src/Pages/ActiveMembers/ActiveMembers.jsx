@@ -35,7 +35,7 @@ function ActiveMembers() {
 
   const handleRightClick = (id) => {
     // alert(`Action for Seat No: ${seatNo}`);
-    navigate(`/Profile/${id}`);
+    navigate(`/Profile/${id}`, { state: { from: "/ActiveMembers" } });
   };
 
   const backButtonHandle = () => {
