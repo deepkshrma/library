@@ -64,7 +64,7 @@ function Profile() {
   };
 
   return (
-    <div className="h-screen w-screen bg-gray-900 text-white relative">
+    <div className="min-h-screen w-screen bg-gray-900 text-white">
       {/* Header */}
       <header className="flex justify-between items-center bg-gray-800 px-4 py-3 md:px-6 md:py-4">
         <div className="flex items-center gap-3">
