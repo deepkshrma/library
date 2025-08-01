@@ -125,7 +125,11 @@ function Profile() {
           </div>
 
           {/* Profile Info */}
-           <p className="text-md  text-white  rounded">{memberData.status}</p>
+          <p
+            className={`text-md  bg-blue-500 px-3 py-1 flex justify-center items-center text-white  rounded`}
+          >
+            {memberData.status}
+          </p>
           <div className="flex flex-col justify-center w-full max-w-md">
             <h2 className="text-2xl font-bold mb-4">{memberData.name}</h2>
             <div className="space-y-2">
