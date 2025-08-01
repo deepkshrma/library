@@ -50,6 +50,19 @@ function Profile() {
     }
   };
 
+  const handleSeatUpdate = async () => {
+    try {
+      await axios.patch(
+        `http://localhost:5000/api/students/${id}/update-seat`,
+        { seatNo: memberData.seatNo }
+      );
+      alert("Seat number updated successfully.");
+    } catch (err) {
+      console.error("Error updating seat number:", err);
+      alert("Failed to update seat number.");
+    }
+  };
+
   return (
     <div className="h-screen w-screen bg-gray-900 text-white relative">
       {/* Header */}
@@ -93,12 +106,26 @@ function Profile() {
             </div>
 
             {/* Seat Number */}
-            <div className="absolute top-0 right-0 bg-blue-900 text-white text-lg font-bold px-4 py-2 rounded-lg shadow-md">
-              Seat #{memberData.seatNo}
+            <div className="absolute top-0 right-0 bg-blue-900 text-white text-lg font-bold px-4 py-2 rounded-lg shadow-md flex gap-2 items-center">
+              <input
+                type="text"
+                value={memberData.seatNo || ""}
+                onChange={(e) =>
+                  setMemberData((prev) => ({ ...prev, seatNo: e.target.value }))
+                }
+                className="w-16 bg-transparent border-b border-white text-white text-center focus:outline-none"
+              />
+              <button
+                onClick={handleSeatUpdate}
+                className="text-sm bg-white text-blue-900 px-2 py-1 rounded hover:bg-gray-200"
+              >
+                Save
+              </button>
             </div>
           </div>
 
           {/* Profile Info */}
+           <p className="text-md  text-white  rounded">{memberData.status}</p>
           <div className="flex flex-col justify-center w-full max-w-md">
             <h2 className="text-2xl font-bold mb-4">{memberData.name}</h2>
             <div className="space-y-2">
@@ -139,7 +166,15 @@ function Profile() {
             </div>
 
             {/* Remove Button */}
-            <div className="mt-7 flex justify-end">
+            <div className="mt-7 flex gap-4 justify-end">
+              <Link
+                to={`/Add/${id}`}
+                state={{ from: location.pathname }}
+                className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded shadow"
+              >
+                Update
+              </Link>
+
               <button
                 onClick={handleDelete}
                 className="bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-2 rounded shadow"
