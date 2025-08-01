@@ -4,6 +4,7 @@ import { Bars3Icon } from "@heroicons/react/24/outline";
 import Sidebar from "../../components/Sidebar.jsx";
 import axios from "axios";
 import { TiArrowBack } from "react-icons/ti";
+import otherImage from "../../assets/guest.png";
 
 function Add() {
   const { id } = useParams();
@@ -63,23 +64,22 @@ function Add() {
   };
 
   const handleImageChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
 
-    reader.onloadend = () => {
-      const base64String = reader.result;
-      setImage(base64String); // for preview
-      setFormData((prev) => ({
-        ...prev,
-        profileImage: base64String, // ✅ store Base64 in formData
-      }));
-    };
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        setImage(base64String); // for preview
+        setFormData((prev) => ({
+          ...prev,
+          profileImage: base64String, // ✅ store Base64 in formData
+        }));
+      };
 
-    reader.readAsDataURL(file); // ✅ convert to base64 string
-  }
-};
-
+      reader.readAsDataURL(file); // ✅ convert to base64 string
+    }
+  };
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -179,7 +179,11 @@ function Add() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <span className="text-gray-400 text-sm">Upload</span>
+                <img
+                  src={otherImage}
+                  alt="Default"
+                  className="w-full h-full object-cover"
+                />
               )}
             </div>
             <input
