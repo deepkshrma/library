@@ -63,16 +63,23 @@ function Add() {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      // You can later upload to server or handle base64
-      setImage(URL.createObjectURL(file));
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const base64String = reader.result;
+      setImage(base64String); // for preview
       setFormData((prev) => ({
         ...prev,
-        profileImage: URL.createObjectURL(file),
+        profileImage: base64String, // ✅ store Base64 in formData
       }));
-    }
-  };
+    };
+
+    reader.readAsDataURL(file); // ✅ convert to base64 string
+  }
+};
+
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -87,7 +94,7 @@ function Add() {
 
     const dataToSend = {
       ...formData,
-      status: "paid", // Default or keep same during update
+      status: "Paid", // Default or keep same during update
     };
 
     try {

@@ -17,7 +17,7 @@ function ActiveMembers() {
       try {
         const res = await axios.get("http://localhost:5000/api/students");
         const activeMembers = res.data.filter((student) =>
-          ["paid", "due"].includes(student.status)
+          ["Paid", "Due"].includes(student.status)
         );
 
         setMembers(activeMembers);
@@ -95,7 +95,7 @@ function ActiveMembers() {
                   <tr key={member.seatNo} className="border-b border-gray-700">
                     <td
                       className={`px-3 py-2 md:px-6 md:py-3 ${
-                        member.status === "due"
+                        member.status === "Due"
                           ? "text-red-400 font-semibold"
                           : ""
                       }`}
@@ -104,7 +104,7 @@ function ActiveMembers() {
                     </td>
                     <td
                       className={`px-3 py-2 md:px-6 md:py-3 ${
-                        member.status === "due"
+                        member.status === "Due"
                           ? "text-red-400 font-semibold"
                           : ""
                       }`}

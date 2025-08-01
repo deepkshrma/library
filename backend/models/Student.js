@@ -50,8 +50,8 @@ const studentSchema = new mongoose.Schema({
   endMonth: String,
   status: {
     type: String,
-    enum: ["paid", "due", "old"],
-    default: "paid"
+    enum: ["Paid", "Due", "Old"],
+    default: "Paid"
   },
   fees: [feeSchema]
 });

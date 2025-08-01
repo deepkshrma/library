@@ -17,7 +17,7 @@ function OldMembers() {
       try {
         const res = await axios.get(`http://localhost:5000/api/students`);
         const OldMembers = res.data.filter(
-          (student) => student.status === "old"
+          (student) => student.status === "Old"
         );
         setMembers(OldMembers);
       } catch (error) {
