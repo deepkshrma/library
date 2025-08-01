@@ -73,7 +73,7 @@ function Profile() {
 
       {/* Main Content */}
       {memberData ? (
-        // 🔽🔽 Full Profile JSX below here 🔽🔽
+        //  Full Profile JSX below here
         <div className="flex flex-col md:flex-row items-start mt-8 px-6 md:px-[100px] gap-8">
           <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-0">
             Profile
