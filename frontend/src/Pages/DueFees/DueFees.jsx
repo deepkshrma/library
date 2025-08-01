@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import Sidebar from "../../components/Sidebar.jsx";
 import { useNavigate } from "react-router-dom";
+import { TiArrowBack } from "react-icons/ti";
 
 function DueFees() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -19,12 +20,28 @@ function DueFees() {
   const handleViewClick = () => {
     navigate("/Profile");
   };
+  const backButtonHandle = () => {
+    const from = location.state?.from;
+
+    if (from) {
+      navigate(from);
+    } else {
+      navigate("/");
+    }
+  };
 
   return (
     <div className="h-screen w-screen bg-gray-900 text-white relative">
       {/* Header */}
       <header className="flex justify-between items-center bg-gray-800 px-4 py-3 md:px-6 md:py-4">
-        <h1 className="text-xl md:text-2xl font-bold">Pooja Library</h1>
+        <div className="flex items-center gap-3">
+          <TiArrowBack
+            size={30}
+            className="text-white"
+            onClick={backButtonHandle}
+          />
+          <h1 className="text-xl md:text-2xl font-bold">Pooja Library</h1>
+        </div>
         <button
           onClick={toggleSidebar}
           className="p-2 hover:bg-gray-700 rounded"

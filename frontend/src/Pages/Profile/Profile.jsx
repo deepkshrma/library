@@ -41,8 +41,10 @@ function Profile() {
   };
 
   const backButtonHandle = () => {
-    if (location.pathname === `/Profile/${id}`) {
-      navigate("/ActiveMembers");
+    const from = location.state?.from;
+
+    if (from) {
+      navigate(from);
     } else {
       navigate("/");
     }
