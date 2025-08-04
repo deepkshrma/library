@@ -54,10 +54,9 @@ function Profile() {
 
   const handleSeatUpdate = async () => {
     try {
-      await axios.patch(
-        `${bashUrl}/api/students/${id}/update-seat`,
-        { seatNo: memberData.seatNo }
-      );
+      await axios.patch(`${bashUrl}/api/students/${id}/update-seat`, {
+        seatNo: memberData.seatNo,
+      });
       alert("Seat number updated successfully.");
     } catch (err) {
       console.error("Error updating seat number:", err);
@@ -197,6 +196,14 @@ function Profile() {
                   {new Date(memberData.joinDate).toLocaleDateString("en-IN")}
                 </span>
               </div>
+              <hr className="text-gray-700" />
+              <div className="grid grid-cols-[150px_auto] gap-15">
+                <span className="font-semibold text-white">Next Due Date:</span>
+                <span className="text-gray-400">
+                  {new Date(memberData.nextDueDate).toLocaleDateString("en-IN")}
+                </span>
+              </div>
+
               <hr className="text-gray-700" />
             </div>
 

@@ -54,13 +54,31 @@ router.delete("/:id", async (req, res) => {
 });
 
 // Update student data (including profile image)
+// routes/studentRoutes.js
+
 router.patch("/:id", async (req, res) => {
   try {
-    const updateData = { ...req.body };
+    const allowedFields = [
+      "name",
+      "fatherName",
+      "mobile",
+      "parentMobile",
+      "address",
+      "seatNo",
+      "aadharNo",
+      "profileImage",
+      "monthlyFee",
+      "joinDate",
+      "endMonth",
+      "fees" // Only update if you're sending fees data intentionally
+    ];
 
-    // ⚠️ Prevent status from being updated unless explicitly allowed
-    if (updateData.status && !["Paid", "Due"].includes(updateData.status)) {
-      delete updateData.status;
+    const updateData = {};
+
+    for (const key of allowedFields) {
+      if (req.body[key] !== undefined) {
+        updateData[key] = req.body[key];
+      }
     }
 
     const updatedStudent = await Student.findByIdAndUpdate(
@@ -80,6 +98,8 @@ router.patch("/:id", async (req, res) => {
 });
 
 
+
+
 // Mark specific month’s fee as paid
 router.patch("/:id/pay-fee", async (req, res) => {
   const { method } = req.body;
@@ -88,11 +108,28 @@ router.patch("/:id/pay-fee", async (req, res) => {
     const student = await Student.findById(req.params.id);
     if (!student) return res.status(404).json({ error: "Student not found" });
 
-    // Set payment method if needed
-    student.paymentMethod = method || "cash";
+    const join = new Date(student.joinDate);
+    const today = new Date();
 
-    // Change status to "paid"
+    // Determine how many full billing cycles (months) have passed since join date
+    let monthsPassed =
+      (today.getFullYear() - join.getFullYear()) * 12 +
+      (today.getMonth() - join.getMonth());
+
+    // If today is before the original day-of-month, subtract 1 month
+    if (today.getDate() < join.getDate()) {
+      monthsPassed -= 1;
+    }
+
+    // Calculate the next due date from join date, NOT from today
+    const nextDue = new Date(join);
+    nextDue.setMonth(join.getMonth() + monthsPassed + 1);
+    nextDue.setDate(join.getDate());
+
+    // Update fields
     student.status = "Paid";
+    student.nextDueDate = nextDue;
+    student.paymentMethod = method || "cash";
 
     await student.save();
     res.json({ message: "Payment successful", student });
@@ -100,6 +137,7 @@ router.patch("/:id/pay-fee", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 
 // routes/studentRoutes.js

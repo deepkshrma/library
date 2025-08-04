@@ -19,6 +19,7 @@ mongoose.connect(process.env.MONGO_URI)
     console.log("MongoDB connected");
 
     await autoUpdateDueMembers();
+    setInterval(autoUpdateDueMembers, 24 * 60 * 60 * 1000);
 
     app.listen(5000, () => {
       console.log("Server running on port 5000");

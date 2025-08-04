@@ -49,6 +49,10 @@ const studentSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
+  nextDueDate: {
+    type: Date,
+  },
+
   endMonth: String,
   status: {
     type: String,
@@ -56,8 +60,8 @@ const studentSchema = new mongoose.Schema({
     default: "Paid"
   },
   fees: [feeSchema]
-},{
-  timestamps: true 
+}, {
+  timestamps: true
 });
 
 const Student = mongoose.model("Student", studentSchema);

@@ -18,9 +18,9 @@ function ActiveMembers() {
     const fetchMembers = async () => {
       try {
         const res = await axios.get(`${bashUrl}/api/students`);
-        const activeMembers = res.data.filter((student) =>
-          ["Paid", "Due"].includes(student.status)
-        );
+        const activeMembers = res.data
+          .filter((student) => ["Paid", "Due"].includes(student.status))
+          .sort((a, b) => Number(a.seatNo) - Number(b.seatNo)); // sort by seatNo
 
         setMembers(activeMembers);
       } catch (error) {
