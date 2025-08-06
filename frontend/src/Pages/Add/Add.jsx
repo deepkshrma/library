@@ -6,6 +6,7 @@ import axios from "axios";
 import { TiArrowBack } from "react-icons/ti";
 import otherImage from "../../assets/guest.png";
 import { baseUrl } from "../../../Config/Config.js";
+import { toast } from "react-toastify";
 
 function Add() {
   const { id } = useParams();
@@ -53,6 +54,7 @@ function Add() {
           if (data.profileImage) setImage(data.profileImage); // Show existing image
         } catch (err) {
           console.error("Failed to fetch member", err);
+          toast.error("error fetching students")
         }
       };
       fetchMember();
@@ -102,14 +104,14 @@ function Add() {
       if (id) {
         // UPDATE
         await axios.patch(
-          `${bashUrl}/api/students/${id}`,
+          `${baseUrl}/api/students/${id}`,
           dataToSend
         );
-        alert("Member updated successfully!");
+        toast.success("student update successfully");
       } else {
         // ADD NEW
         await axios.post(`${baseUrl}/api/students`, dataToSend);
-        alert("Member added successfully!");
+        toast.success("student added successfully!");
         setFormData({
           name: "",
           fatherName: "",
@@ -128,7 +130,7 @@ function Add() {
       navigate("/ActiveMembers");
     } catch (error) {
       console.error("Error saving member:", error);
-      alert(error.response?.data?.error || "Something went wrong");
+      toast.error(error.response?.data?.error || "Something went wrong");
     }
   };
 

@@ -6,7 +6,7 @@ import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { TiArrowBack } from "react-icons/ti";
 import { baseUrl } from "../../../Config/Config.js";
-
+import { toast } from "react-toastify";
 
 
 function ActiveMembers() {
@@ -14,6 +14,7 @@ function ActiveMembers() {
   const [members, setMembers] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
+  
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -26,6 +27,7 @@ function ActiveMembers() {
         setMembers(activeMembers);
       } catch (error) {
         console.error("Error fetching members:", error);
+        toast.error("error fetching students");
       }
     };
 

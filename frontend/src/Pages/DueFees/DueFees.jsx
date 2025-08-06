@@ -6,6 +6,7 @@ import { TiArrowBack } from "react-icons/ti";
 import { useEffect } from "react";
 import axios from "axios";
 import { baseUrl } from "../../../Config/Config.js";
+import { toast } from "react-toastify";
 
 function DueFees() {
   const [paymentmethod, setpaymentmethod] = useState({});
@@ -54,6 +55,7 @@ function DueFees() {
       });
 
       // Optimistically remove the paid student from local state
+      toast.success("student in library")
       setMembers((prev) => prev.filter((member) => member._id !== id));
     } catch (err) {
       console.error("Error updating payment status:", err);
