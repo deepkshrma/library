@@ -34,9 +34,7 @@ function Add() {
     if (id) {
       const fetchMember = async () => {
         try {
-          const res = await axios.get(
-            `${baseUrl}/api/students/${id}`
-          );
+          const res = await axios.get(`${baseUrl}/api/students/${id}`);
           const data = res.data;
           setFormData({
             name: data.name || "",
@@ -54,7 +52,7 @@ function Add() {
           if (data.profileImage) setImage(data.profileImage); // Show existing image
         } catch (err) {
           console.error("Failed to fetch member", err);
-          toast.error("error fetching students")
+          toast.error("error fetching students");
         }
       };
       fetchMember();
@@ -103,10 +101,7 @@ function Add() {
     try {
       if (id) {
         // UPDATE
-        await axios.patch(
-          `${baseUrl}/api/students/${id}`,
-          dataToSend
-        );
+        await axios.patch(`${baseUrl}/api/students/${id}`, dataToSend);
         toast.success("student update successfully");
       } else {
         // ADD NEW
@@ -194,6 +189,7 @@ function Add() {
               name="image"
               ref={fileInputRef}
               accept="image/*"
+              capture="environment" // or "user"
               onChange={handleImageChange}
               className="hidden"
             />
