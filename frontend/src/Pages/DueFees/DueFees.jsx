@@ -5,8 +5,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { TiArrowBack } from "react-icons/ti";
 import { useEffect } from "react";
 import axios from "axios";
+import { baseUrl } from "../../../Config/Config.js";
 
-const bashUrl = "http://localhost:5000";
 function DueFees() {
   const [paymentmethod, setpaymentmethod] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -17,7 +17,7 @@ function DueFees() {
   useEffect(() => {
     const fetchMember = async () => {
       try {
-        const res = await axios.get(`${bashUrl}/api/students`);
+        const res = await axios.get(`${baseUrl}/api/students`);
         const duemembers = res.data.filter(
           (student) => student.status === "Due"
         );
@@ -49,7 +49,7 @@ function DueFees() {
 
   const handleMarkAsPaid = async (id, method) => {
     try {
-      await axios.patch(`${bashUrl}/api/students/${id}/pay-fee`, {
+      await axios.patch(`${baseUrl}/api/students/${id}/pay-fee`, {
         method,
       });
 

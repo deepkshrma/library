@@ -5,8 +5,7 @@ import Sidebar from "../../components/Sidebar.jsx";
 import axios from "axios";
 import { TiArrowBack } from "react-icons/ti";
 import otherImage from "../../assets/guest.png";
-
-const bashUrl = "http://localhost:5000";
+import { baseUrl } from "../../../Config/Config.js";
 
 function Add() {
   const { id } = useParams();
@@ -35,7 +34,7 @@ function Add() {
       const fetchMember = async () => {
         try {
           const res = await axios.get(
-            `${bashUrl}/api/students/${id}`
+            `${baseUrl}/api/students/${id}`
           );
           const data = res.data;
           setFormData({
@@ -109,7 +108,7 @@ function Add() {
         alert("Member updated successfully!");
       } else {
         // ADD NEW
-        await axios.post(`${bashUrl}/api/students`, dataToSend);
+        await axios.post(`${baseUrl}/api/students`, dataToSend);
         alert("Member added successfully!");
         setFormData({
           name: "",

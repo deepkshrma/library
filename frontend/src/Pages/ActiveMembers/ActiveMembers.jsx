@@ -5,8 +5,9 @@ import { FaChevronRight } from "react-icons/fa";
 import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { TiArrowBack } from "react-icons/ti";
+import { baseUrl } from "../../../Config/Config.js";
 
-const bashUrl = "http://localhost:5000";
+
 
 function ActiveMembers() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -17,7 +18,7 @@ function ActiveMembers() {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const res = await axios.get(`${bashUrl}/api/students`);
+        const res = await axios.get(`${baseUrl}/api/students`);
         const activeMembers = res.data
           .filter((student) => ["Paid", "Due"].includes(student.status))
           .sort((a, b) => Number(a.seatNo) - Number(b.seatNo)); // sort by seatNo
