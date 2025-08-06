@@ -8,8 +8,13 @@ import autoUpdateDueMembers from "./utils/autoUpdateDueMembers.js";
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
 
 app.use("/api/students", studentRoutes);
 
@@ -21,7 +26,7 @@ mongoose.connect(process.env.MONGO_URI)
     await autoUpdateDueMembers();
     setInterval(autoUpdateDueMembers, 24 * 60 * 60 * 1000);
 
-    app.listen(5000, () => {
+    app.listen(process.env.PORT, () => {
       console.log("Server running on port 5000");
     });
   })
