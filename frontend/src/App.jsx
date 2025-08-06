@@ -1,18 +1,21 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+
+
 import MainPage from "./Pages/MainPage/MainPage";
 import ActiveMembers from "./Pages/ActiveMembers/ActiveMembers";
 import Add from "./Pages/Add/Add";
 import OldMembers from "./Pages/OldMembers/OldMembers";
 import DueFees from "./Pages/DueFees/DueFees";
 import Profile from "./Pages/Profile/Profile";
-import { ToastContainer } from "react-toastify";
+
 
 function App() {
   return (
     <Router>
+      <ToastContainer position="top-right" autoClose={3000} />
+      
       <Routes>
-        <ToastContainer position="top-right" autoClose={3000} />
         <Route path="/" element={<MainPage />} />
         <Route path="/ActiveMembers" element={<ActiveMembers />} />
         <Route path="/Add" element={<Add />} />
